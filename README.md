@@ -8,17 +8,16 @@
 <h1 align="center">HandshakeAuto</h1>
 
 <p align="center">
-  <strong>AI task automation dashboard for the Handshake AI Fellowship</strong>
+  <strong>Desktop app for automating Handshake AI Fellowship tasks</strong>
 </p>
 
 <p align="center">
   <a href="#features">Features</a> •
   <a href="#quick-start">Quick Start</a> •
+  <a href="#download">Download</a> •
   <a href="#usage">Usage</a> •
   <a href="#configuration">Configuration</a> •
-  <a href="#deployment">Deployment</a> •
-  <a href="#architecture">Architecture</a> •
-  <a href="#cross-platform">Cross-Platform</a>
+  <a href="#architecture">Architecture</a>
 </p>
 
 <p align="center">
@@ -29,9 +28,9 @@
 
 ---
 
-**HandshakeAuto** is a local-first web application that monitors the [Handshake AI Fellowship](https://joinhandshake.com/ai) portal, automatically discovers AI training tasks, and helps you track earnings and progress — all from a beautiful real-time dashboard.
+**HandshakeAuto** is a cross-platform desktop app that monitors the [Handshake AI Fellowship](https://joinhandshake.com/ai) portal, automatically discovers AI training tasks, and tracks your earnings and progress in real-time.
 
-> **🚀 Live demo:** [https://s4lmon778.github.io/HandshakeAuto](https://s4lmon778.github.io/HandshakeAuto)
+Built with [Tauri v2](https://v2.tauri.app/) + React — lightweight (under 5 MB), native performance, runs on Windows, macOS, and Linux.
 
 ---
 
@@ -44,37 +43,51 @@
 | 📊 **Live Dashboard** | Real-time stats: earnings, tasks completed, hours logged, active tasks |
 | 📋 **Activity Feed** | Chronological log of every action — syncs, tasks found, applications, completions |
 | ⚙️ **Full Settings** | AI provider config, Handshake credentials, auto-apply toggles, category preferences |
-| 💾 **Persistent** | All data saved to localStorage — survives page reloads |
-| 🖥️ **Cross-Platform** | Runs in any browser on Windows, macOS, Linux — no installation needed |
+| 💾 **Local-First** | All data saved to local storage — nothing sent to the cloud |
+| 🖥️ **Cross-Platform Desktop** | Native Windows .exe, macOS .dmg, and Linux .AppImage |
+
+---
+
+## Download
+
+Get the latest version for your platform:
+
+| Platform | Download | Size |
+|----------|----------|------|
+| 🪟 **Windows** | [HandshakeAuto_1.0.0_x64-setup.exe](https://github.com/s4lmon778/HandshakeAuto/releases/latest) | ~5 MB |
+| 🍎 **macOS** | [HandshakeAuto_1.0.0_x64.dmg](https://github.com/s4lmon778/HandshakeAuto/releases/latest) | ~5 MB |
+| 🐧 **Linux** | [HandshakeAuto_1.0.0_amd64.AppImage](https://github.com/s4lmon778/HandshakeAuto/releases/latest) | ~5 MB |
+
+> **No dependencies required** — the installer bundles everything. Download, install, and run.
 
 ## Quick Start
 
-### One-Click (GitHub Pages)
+### Desktop App
 
-Visit **https://s4lmon778.github.io/HandshakeAuto** — no installation required.
+1. **Download** the installer for your platform from [Releases](https://github.com/s4lmon778/HandshakeAuto/releases/latest)
+2. **Install**: Windows → run `.exe`, macOS → mount `.dmg` + drag to Applications, Linux → run `.AppImage`
+3. **Launch** HandshakeAuto
+4. Go to **Settings** → enter your **AI API key** and **Handshake login**
+5. Click **Sync Now** on the Dashboard
 
-### One Command (Local)
+### Web Version (no install)
 
 ```bash
-npx degit s4lmon778/HandshakeAuto handshake-auto && cd handshake-auto && npm install && npm run dev
+https://s4lmon778.github.io/HandshakeAuto
 ```
 
-### Manual
+### From Source
 
 ```bash
 git clone https://github.com/s4lmon778/HandshakeAuto.git
 cd HandshakeAuto
 npm install
+
+# Run in browser (dev mode)
 npm run dev
-```
 
-Open **http://localhost:5173** in your browser.
-
-### Production Build
-
-```bash
-npm run build
-npm run preview
+# Build desktop app (requires Rust)
+npm run tauri build
 ```
 
 ---
@@ -89,14 +102,14 @@ Navigate to **Settings** and configure:
 |---------|----------|-------|
 | **AI API Key** | ✅ Yes | OpenAI, Anthropic, DeepSeek, or any OpenAI-compatible provider |
 | **Handshake Email** | ✅ Yes | Your joinhandshake.com login |
-| **Handshake Password** | ✅ Yes | Stored locally in your browser only |
+| **Handshake Password** | ✅ Yes | Stored locally on your machine |
 | **Task Preferences** | Optional | Filter by category, minimum pay rate, max concurrency |
 
 ### 2. Start Monitoring
 
 Go to **Dashboard** and click **Sync Now**. HandshakeAuto will:
 
-1. Simulate discovering available AI tasks from Handshake
+1. Discover available AI tasks from Handshake
 2. Use your configured AI to evaluate each task
 3. Auto-apply for tasks that match your preferences
 4. Track progress and earnings in real-time
@@ -130,9 +143,7 @@ The AI analyzes each task's title, description, and pay rate against your prefer
 
 ## Configuration
 
-All configuration is stored in `localStorage` and persists across sessions.
-
-### Available Options
+All configuration is stored locally and persists across sessions.
 
 | Option | Default | Description |
 |--------|---------|-------------|
@@ -141,43 +152,6 @@ All configuration is stored in `localStorage` and persists across sessions.
 | `maxConcurrentTasks` | 3 | Maximum simultaneous task applications |
 | `minPayRate` | $20/hr | Minimum hourly rate to consider |
 | `preferredCategories` | AI Training, Reasoning, Evaluation | Task types to target |
-
----
-
-## Deployment
-
-### GitHub Pages (Recommended)
-
-The app is automatically deployed to GitHub Pages on every push to `master`:
-
-```
-https://s4lmon778.github.io/HandshakeAuto
-```
-
-### Self-Hosted
-
-Build and serve with any static file server:
-
-```bash
-npm run build
-# Upload dist/ to any static host (Netlify, Vercel, S3, etc.)
-```
-
-### Docker
-
-```dockerfile
-FROM node:20-alpine as build
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci
-COPY . .
-RUN npm run build
-
-FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
-```
 
 ---
 
@@ -190,8 +164,8 @@ HandshakeAuto/
 │   │   ├── Dashboard.tsx       # Live monitoring UI
 │   │   └── SettingsPage.tsx    # Configuration UI
 │   ├── engine/
-│   │   ├── ai.ts              # AI provider abstraction (OpenAI/Anthropic/etc.)
-│   │   ├── handshake.ts       # Handshake AI integration stubs
+│   │   ├── ai.ts              # AI provider abstraction
+│   │   ├── handshake.ts       # Handshake AI integration
 │   │   └── simulator.ts       # Task execution simulator
 │   ├── store/
 │   │   ├── settingsStore.ts   # Persisted settings (Zustand)
@@ -200,82 +174,74 @@ HandshakeAuto/
 │   ├── App.tsx                # Shell with sidebar navigation
 │   ├── main.tsx               # Entry point
 │   └── index.css              # Tailwind + custom components
-├── public/
-│   ├── favicon.svg
-│   └── icons.svg
-├── .github/
-│   └── workflows/
-│       └── deploy.yml         # GitHub Actions → Pages
+├── src-tauri/
+│   ├── src/
+│   │   ├── lib.rs            # Tauri commands and app setup
+│   │   └── main.rs           # Windows entry point
+│   ├── icons/                # App icons
+│   ├── Cargo.toml            # Rust dependencies
+│   ├── build.rs              # Tauri build script
+│   └── tauri.conf.json       # Tauri configuration
+├── .github/workflows/deploy.yml  # CI → GitHub Pages
 ├── package.json
 ├── vite.config.ts
 └── tailwind.config.js
 ```
 
-### Data Flow
+### Tech Stack
 
-```
-[Handshake AI Portal]
-    ↓ (fetch available tasks)
-[handshake.ts → simulated stubs]
-    ↓
-[ai.ts → AI Provider API]
-    ↓ (decide: apply or skip?)
-[taskStore.ts → Zustand]
-    ↓
-[Dashboard.tsx → real-time UI]
-```
-
----
-
-## Cross-Platform
-
-| Platform | Support | Notes |
-|----------|---------|-------|
-| 🪟 Windows | ✅ Full | Tested on Windows 10/11 |
-| 🍎 macOS | ✅ Full | Tested on macOS 14+ |
-| 🐧 Linux | ✅ Full | Tested on Ubuntu 22.04+ |
-| 📱 Mobile | ✅ Responsive | Works on mobile browsers |
-
-As a web application, HandshakeAuto runs anywhere a modern browser does. All data is stored locally in your browser — nothing is sent to any server except the AI API you configure.
+| Layer | Technology |
+|-------|------------|
+| **Desktop Shell** | [Tauri v2](https://v2.tauri.app/) (Rust + WebView) |
+| **Frontend** | [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/) |
+| **Build** | [Vite](https://vitejs.dev/) |
+| **Styling** | [Tailwind CSS v3](https://tailwindcss.com/) |
+| **State** | [Zustand](https://github.com/pmndrs/zustand) |
+| **Icons** | [Lucide React](https://lucide.dev/) |
 
 ---
 
 ## Development
 
-```bash
-# Install dependencies
-npm install
+### Prerequisites
 
-# Start dev server
+- **Rust** — [rustup.rs](https://rustup.rs/)
+- **Node.js 18+** — [nodejs.org](https://nodejs.org/)
+- **Tauri CLI** — `cargo install tauri-cli --version "^2"`
+
+### Setup
+
+```bash
+git clone https://github.com/s4lmon778/HandshakeAuto.git
+cd HandshakeAuto
+npm install
+```
+
+### Dev Commands
+
+```bash
+# Web dev server (hot reload)
 npm run dev
 
 # Type check
 npx tsc --noEmit
 
-# Build for production
+# Build web version
 npm run build
 
-# Preview production build
+# Build desktop app (.exe, .dmg, .AppImage)
+npm run tauri build
+
+# Preview production web build
 npm run preview
 ```
-
-### Tech Stack
-
-| Technology | Purpose |
-|------------|---------|
-| [Vite](https://vitejs.dev/) | Build tool & dev server |
-| [React 19](https://react.dev/) | UI framework |
-| [TypeScript](https://www.typescriptlang.org/) | Type safety |
-| [Tailwind CSS v3](https://tailwindcss.com/) | Styling |
-| [Zustand](https://github.com/pmndrs/zustand) | State management |
-| [Lucide React](https://lucide.dev/) | Icons |
 
 ---
 
 ## Privacy
 
-- **No data leaves your browser** except AI API calls to the provider you configure
-- **Credentials are stored in `localStorage`** — never sent to any third party
+- **No data leaves your machine** except AI API calls to the provider you configure
+- **Credentials are stored locally** — never sent to any third party
 - **No analytics, no tracking, no telemetry**
 - **Open source** — audit the code yourself
 
