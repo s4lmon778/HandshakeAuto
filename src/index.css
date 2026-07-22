@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-surface text-text-primary font-sans antialiased;
+  }
+  ::selection {
+    @apply bg-accent/30 text-white;
+  }
+  scrollbar {
+    @apply hidden;
+  }
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border-light rounded-full;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-surface-card border border-border rounded-xl p-5;
+  }
+  .card-hover {
+    @apply card transition-all hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5;
+  }
+  .btn-primary {
+    @apply px-4 py-2 bg-accent text-white rounded-lg font-medium text-sm
+           transition-all hover:bg-accent-hover active:scale-[0.98]
+           disabled:opacity-40 disabled:pointer-events-none;
+  }
+  .btn-secondary {
+    @apply px-4 py-2 bg-surface-elevated border border-border text-text-secondary
+           rounded-lg font-medium text-sm transition-all
+           hover:border-border-light hover:text-text-primary active:scale-[0.98];
+  }
+  .btn-ghost {
+    @apply px-3 py-1.5 text-text-muted rounded-lg text-sm font-medium
+           transition-all hover:text-text-primary hover:bg-white/5;
+  }
+  .badge {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold;
+  }
+  .badge-success {
+    @apply badge bg-accent-green/10 text-accent-green border border-accent-green/20;
+  }
+  .badge-error {
+    @apply badge bg-accent-red/10 text-accent-red border border-accent-red/20;
+  }
+  .badge-warning {
+    @apply badge bg-accent-amber/10 text-accent-amber border border-accent-amber/20;
+  }
+  .badge-info {
+    @apply badge bg-accent-blue/10 text-accent-blue border border-accent-blue/20;
+  }
+  .input {
+    @apply w-full px-3 py-2 bg-surface-elevated border border-border rounded-lg
+           text-sm text-text-primary placeholder-text-muted
+           focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/30
+           transition-all;
+  }
+  .label {
+    @apply block text-sm font-medium text-text-secondary mb-1.5;
+  }
+}
