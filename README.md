@@ -54,11 +54,15 @@ Get the latest version for your platform:
 
 | Platform | Download | Size |
 |----------|----------|------|
-| 🪟 **Windows** | [HandshakeAuto_1.0.0_x64-setup.exe](https://github.com/s4lmon778/HandshakeAuto/releases/latest) | ~5 MB |
-| 🍎 **macOS** | [HandshakeAuto_1.0.0_x64.dmg](https://github.com/s4lmon778/HandshakeAuto/releases/latest) | ~5 MB |
-| 🐧 **Linux** | [HandshakeAuto_1.0.0_amd64.AppImage](https://github.com/s4lmon778/HandshakeAuto/releases/latest) | ~5 MB |
+| 🪟 **Windows** | [HandshakeAuto_1.0.0_x64-setup.exe](https://github.com/s4lmon778/HandshakeAuto/releases/download/v1.0.0/HandshakeAuto_1.0.0_x64-setup.exe) | ~2.4 MB |
+| 🍎 **macOS** | Build from source ([1 command](#macos-build)) | — |
+| 🐧 **Linux** | Build from source ([1 command](#from-source)) | — |
 
-> **No dependencies required** — the installer bundles everything. Download, install, and run.
+> **macOS users with Rust installed** — one command:
+> ```bash
+> git clone https://github.com/s4lmon778/HandshakeAuto.git && cd HandshakeAuto && npm install && npm run tauri build
+> ```
+> The `.dmg` will be at `src-tauri/target/release/bundle/dmg/`.
 
 ## Quick Start
 
