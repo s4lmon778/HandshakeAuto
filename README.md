@@ -58,11 +58,15 @@ Get the latest version for your platform:
 | 🍎 **macOS** | Build from source ([1 command](#macos-build)) | — |
 | 🐧 **Linux** | Build from source ([1 command](#from-source)) | — |
 
-> **macOS users with Rust installed** — one command:
+> **macOS / Linux users** — one command (Rust required):
 > ```bash
+> # Install Rust (if not installed)
+> curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+>
+> # Build HandshakeAuto
 > git clone https://github.com/s4lmon778/HandshakeAuto.git && cd HandshakeAuto && npm install && npm run tauri build
 > ```
-> The `.dmg` will be at `src-tauri/target/release/bundle/dmg/`.
+> The `.dmg` / `.AppImage` will be in `src-tauri/target/release/bundle/`.
 
 ## Quick Start
 
@@ -82,7 +86,13 @@ https://s4lmon778.github.io/HandshakeAuto
 
 ### From Source
 
+Requirements: **Rust** + **Node.js 18+**
+
 ```bash
+# 1. Install Rust (if you haven't already)
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# 2. Clone and build
 git clone https://github.com/s4lmon778/HandshakeAuto.git
 cd HandshakeAuto
 npm install
@@ -90,9 +100,14 @@ npm install
 # Run in browser (dev mode)
 npm run dev
 
-# Build desktop app (requires Rust)
+# Build desktop app (Windows .exe / macOS .dmg / Linux .AppImage)
 npm run tauri build
 ```
+
+> **macOS note:** Xcode Command Line Tools are required. If `npm run tauri build` prompts about missing tools, run:
+> ```bash
+> xcode-select --install
+> ```
 
 ---
 
@@ -209,9 +224,10 @@ HandshakeAuto/
 
 ### Prerequisites
 
-- **Rust** — [rustup.rs](https://rustup.rs/)
+- **Rust** — [rustup.rs](https://rustup.rs/) (`curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`)
 - **Node.js 18+** — [nodejs.org](https://nodejs.org/)
-- **Tauri CLI** — `cargo install tauri-cli --version "^2"`
+- **macOS:** Xcode Command Line Tools (`xcode-select --install`)
+- **Linux:** `sudo apt install libwebkit2gtk-4.1-dev libgtk-3-dev libayatana-appindicator3-dev librsvg2-dev libsoup-3.0-dev`
 
 ### Setup
 
